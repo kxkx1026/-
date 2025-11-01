@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ corp_name }} 재무제표 결과{% endblock %}
+{% block header %}{{ corp_name }} 재무제표 결과{% endblock %}
+{% block lead %}{{ years|join(', ') }}년 분기별 {{ '연결' if fs_div == 'CFS' else '별도' }} 재무제표{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <span class="badge bg-secondary me-2">{{ fs_div }}</span>
+      <span class="text-muted">총 {{ period_columns|length }}개 분기</span>
+    </div>
+    <a class="btn btn-success" href="{{ download_url }}">엑셀 다운로드</a>
+  </div>
+
+  {% if plot_div %}
+    <div class="card shadow-sm mb-4">
+      <div class="card-header">상위 계정 시각화</div>
+      <div class="card-body">
+        {{ plot_div|safe }}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="card shadow-sm">
+    <div class="card-header">표 미리보기 (최대 50행)</div>
+    <div class="table-responsive">
+      {{ table_html|safe }}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{{ url_for('index') }}" class="btn btn-link">다른 회사 검색하기</a>
+  </div>
+{% endblock %}
